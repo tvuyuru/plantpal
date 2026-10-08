@@ -1,0 +1,53 @@
+<!-- My Plants page: currently shows a placeholder for the future plant list. -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PlantPal - My Plants</title>
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page renders -->
+        <script src="js/theme.js"></script>
+    </head>
+
+    <body>
+        <!-- Site header: logo on the left, nav links on the right -->
+        <header class="site-header">
+            <a class="logo" href="index.html">🌿 PlantPal</a>
+            <nav class="site-nav">
+                <!-- Navigation: links to every page; the active class applies the highlighted style. -->
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a class="active" href="plants.html">My Plants</a>
+                <a href="add-plant.html">Add Plant / AI</a>
+                <a href="profile.html">Profile</a>
+                <!-- Login link: js/user.js hides it once someone is logged in -->
+                <a id="login_link" href="login.html">Login</a>
+                <!-- Logged-in user: hidden until js/user.js finds a saved login and fills it in -->
+                <span id="user_name" class="user-name" hidden></span>
+                <!-- Log out link: hidden until someone is logged in; js/user.js clears the saved login when it is clicked -->
+                <a id="logout_link" href="index.html" hidden>Log out</a>
+                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+            </nav>
+        </header>
+
+        <div class="wrap">
+            <h1>My Plants</h1>
+
+            <!-- Placeholder card: this page is not built yet -->
+            <div class="box box-narrow">
+                <p>🌱 Your plants are still putting down roots.</p>
+                <p>This page is under development. Check back soon to see all your plants in one place.</p>
+            </div>
+        </div>
+
+        <!-- Footer: brand, tagline and copyright (same on every page) -->
+        <footer class="page-footer">
+            <p class="footer-logo">🌿 PlantPal</p>
+            <p>A simple way to keep your houseplants healthy.</p>
+            <p>© 2026 PlantPal</p>
+        </footer>
+
+        <!-- User script: at the end of the body so the user_name span in header above already exists when it runs -->
+        <script src="js/user.js"></script>
+    </body>
+</html>

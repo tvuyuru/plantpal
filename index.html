@@ -1,0 +1,87 @@
+<!-- Home page: introduces PlantPal and links to its other plant-care pages. -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PlantPal - Home</title>
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
+        <script src="js/theme.js"></script>
+    </head>
+
+    <body>
+        <!-- Site header: logo on the left, nav links on the right -->
+        <header class="site-header">
+            <a class="logo" href="index.html">🌿 PlantPal</a>
+            <nav class="site-nav">
+                <!-- Navigation: links to every page; the active class applies the highlighted style. -->
+                <a class="active" href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="plants.html">My Plants</a>
+                <a href="add-plant.html">Add Plant / AI</a>
+                <a href="profile.html">Profile</a>
+                <!-- Login link: js/user.js hides it once someone is logged in -->
+                <a id="login_link" href="login.html">Login</a>
+                <!-- Logged-in user: hidden until js/user.js finds a saved login and fills it in -->
+                <span id="user_name" class="user-name" hidden></span>
+                <!-- Log out link: hidden until someone is logged in; js/user.js clears the saved login when it is clicked -->
+                <a id="logout_link" href="index.html" hidden>Log out</a>
+                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+            </nav>
+        </header>
+
+        <div class="wrap">
+            <h1>Keep your houseplants thriving</h1>
+
+            <!-- Home page layout: CSS Grid with named areas. The sidebar sits in the "side" area,
+                the picture in "picture", and the text card in "text" (see .grid-layout in style.css). -->
+            <div class="grid-layout">
+                <aside class="grid-layout-aside">
+                    <!-- Quick start card: the main call to action -->
+                    <div class="aside-card">
+                        <h2 class="aside-title">QUICK START</h2>
+                        <p>Add your first plant and start tracking its watering.</p>
+                        <a class="btn" href="add-plant.html">+ Add a plant</a>
+                    </div>
+                    <!-- Browse card: links to the other pages -->
+                    <div class="aside-card">
+                        <h2 class="aside-title">BROWSE</h2>
+                        <a class="aside-a" href="login.html">Login</a>
+                        <a class="aside-a" href="dashboard.html">Dashboard</a>
+                        <a class="aside-a" href="plants.html">My Plants</a>
+                        <a class="aside-a" href="profile.html">Profile</a>
+                    </div>
+                </aside>
+
+                <!-- Picture: houseplants on stools -->
+                <img class="photo" src="images/houseplants.jpeg" alt="Snake plants and other houseplants in pots on wooden stools against a teal wall">
+
+                <!-- Text card: what PlantPal does -->
+                <div class="box">
+                    <p>
+                    Welcome to PlantPal. It is a simple place to keep every houseplant you own, with its type,
+                    its last watering date and how often it needs water.
+                    </p>
+                    <p>
+                    When a plant looks unwell, you will be able to describe the symptoms, upload a photo and get
+                    a likely cause with next steps, such as overwatering, underwatering, a soil problem or too
+                    little light.
+                    </p>
+                    <p>
+                    This is an early version of the site, built as a class project and still growing.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+         <!-- Footer: brand, tagline and copyright (same on every page) -->
+        <footer class="page-footer">
+            <p class="footer-logo">🌿 PlantPal</p>
+            <p>A simple way to keep your houseplants healthy.</p>
+            <p>© 2026 PlantPal</p>
+        </footer>
+
+        <!-- User script: at the end of the body so the user_name span in header above already exists when it runs -->
+        <script src="js/user.js"></script>
+    </body>
+</html>
