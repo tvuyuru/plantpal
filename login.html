@@ -1,4 +1,4 @@
-<!-- Login page: collects an email and password. To be used with js/login.js for handling login -->
+<!-- Login page: collects an email and password and sends them to the server's /login endpoint -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,6 +21,8 @@
                 <a href="profile.html">Profile</a>
                 <!-- Login link: js/user.js hides it once someone is logged in -->
                 <a class="active" id="login_link" href="login.html">Login</a>
+                <!-- signup link: js/user.js hides it once someone is logged in -->
+                <a id="signup_link" href="register.html">Sign Up</a>
                 <!-- Logged-in user: hidden until js/user.js finds a saved login and fills it in -->
                 <span id="user_name" class="user-name" hidden></span>
                 <!-- Log out link: hidden until someone is logged in; js/user.js clears the saved login when it is clicked -->
@@ -33,18 +35,22 @@
         <div class="wrap">
             <h1>Login</h1>
 
-            <!-- Login form. js/login.js saves the email and then opens the Dashboard.
-                Real login checking comes in a later version. -->
-            <form class="box box-narrow" id="login_form">
+            <!-- Login form.
+                 action: the server endpoint that checks the username and password (/login in server.js)
+                 method="POST": sends the fields in the request body, so the password never appears in the address bar -->
+            <form class="box box-narrow" id="login_form" action="/login" method="POST" novalidate>
+                <div id="form_message" class="form-message" role="alert" hidden></div>
                 <!-- Each label is tied to its input by matching for/id, so clicking the label focuses the box -->
-                <label for="email">Email</label>
-                <!-- The browser requires both fields and checks that the email has a valid format. -->
-                <input type="email" id="email" name="email" required>
+                <label for="username">Username</label>
+                <!-- name="..." must match the field name server.js reads from req.body -->
+                <input type="text" id="username" name="username" autocomplete="username" required>
 
+                <!-- The password field is type="password" so the browser hides what the user types -->
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" autocomplete="current-password" required>
 
-                <button type="submit" class="btn">Log in</button>
+                <!-- Submit button: type="submit" so the browser sends the form to the server when clicked -->
+                <button type="submit" class="btn btn-full">Log in</button>
             </form>
         </div>
 
@@ -57,7 +63,6 @@
 
         <!-- User script: at the end of the body so the user_name span in header above already exists when it runs -->
         <script src="js/user.js"></script>
-        <!-- Login script: saves the email so the header can show who is logged in -->
         <script src="js/login.js"></script>
     </body>
 </html>

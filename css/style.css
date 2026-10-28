@@ -1,223 +1,111 @@
-/* Styles shared by all the PlantPal pages: layout, reusable parts, and the light/dark themes. */
-
-/* Order of this file:
-   1. Themes (light and dark colors)
-   2. Base styles (links, body, text, headings)
-   3. Shared parts used on every page (header and menu, page container and cards, buttons, footer)
-   4. Login page
-   5. Home page
-   6. Dashboard page */
-
-/* ==========================================================
-   1. THEMES
-   ========================================================== */
-
-/* How the colors work:
-   - A CSS variable is a named value. It is created with two dashes, like --text: #1B2A21;
-   - It is used anywhere with var(), like color: var(--text);
-   - :root means the whole page, so every rule below can use these variables.
-   - To change a color across the whole site, change it once here instead of in every rule. */
 
 /* Light theme (the default) */
 :root {
-  color-scheme: light;
-  /* color-scheme: tells the browser to style its own built-in parts (scrollbars, date picker, file button) in light colors */
-  --body-bg: #F4F8F5;       /* page background, behind everything */
-  --card-bg: #FFFFFF;       /* background of the header, cards, footer and text boxes */
-  --text: #1B2A21;          /* main text color: headings and paragraphs */
-  --muted: #5F6F65;         /* softer gray-green for secondary text and menu links */
-  --border: #DDE7E0;        /* thin lines around cards, under the header and between table rows */
-  --tint: #E6F3EA;          /* very light green, used as the background when you hover something */
-  --primary: #2E7D4F;       /* main leaf green: buttons, the active menu link and small headings */
-  --primary-dark: #1F5C39;  /* darker green, used when you hover a button */
-  --on-primary: #FFFFFF;    /* color of text that sits on top of the green (white in light mode) */
-  --th-bg: #1B2A21;         /* dark band behind the table column headings */
+  color-scheme: light;      /* tells the browser to draw its own controls (date picker, file button) light */
+  --body-bg: #F4F8F5;       /* page background */
+  --card-bg: #FFFFFF;       /* header, cards, footer, inputs */
+  --text: #1B2A21;          /* main text and headings */
+  --muted: #5F6F65;         /* secondary text, menu links */
+  --border: #DDE7E0;        /* hairlines and card borders */
+  --tint: #E6F3EA;          /* light green for hovers and the avatar */
+  --primary: #2E7D4F;       /* leaf green: buttons, active link, accents */
+  --primary-dark: #1F5C39;  /* deep green: button hover, gradient end */
+  --on-primary: #FFFFFF;    /* text that sits on top of the green */
+  --th-bg: #1B2A21;         /* table heading band */
 }
 
 /* Dark theme: the same variable names with new values.
-   :root.dark_mode means the page whose <html> tag has the class "dark_mode".
-   js/theme.js adds or removes that class when you click the toggle button.
-   This rule is more specific than :root, so while the class is on, these values win
-   and every color on the site switches at once. */
+   These win over :root whenever <html> has the dark_mode class.
+   js/theme.js adds or removes that class. */
 :root.dark_mode {
-  color-scheme: dark;
-  /* color-scheme: same as above, but the browser styles its built-in parts in dark colors */
+  color-scheme: dark;         /* tells the browser to draw its own parts (scrollbars, date picker, file button) in dark */
   --body-bg: #101713;
   --card-bg: #18211C;
   --text: #E7EFE9;
   --muted: #9DB0A3;
   --border: #2A3830;
   --tint: #1E3328;
-  --primary: #5BC088;       /* lighter green, so it stands out on a dark background */
+  --primary: #5BC088;       /* lighter green so it stands out on dark */
   --primary-dark: #3E9B68;
-  --on-primary: #0B1410;    /* dark text on top of the lighter green */
+  --on-primary: #0B1410;    /* dark text on the lighter green */
   --th-bg: #2A3830;
 }
 
-/* ==========================================================
-   2. BASE STYLES
-   ========================================================== */
-
-/* Removes the underline from all links */
+/* Removes the underline from all anchor tag links */
 a {
   text-decoration: none;
 }
 
-/* Whole page: font, text color, background color, and a column layout so the footer can sit at the bottom */
+/* Body: font, text color, page background, and no default margin so the header touches the edges */
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
-  /* font-family: a list of fonts; the browser uses the first one the computer has */
   color: var(--text);
   background: var(--body-bg);
   margin: 0;
-  /* margin: 0 removes the default space around the page so the header touches the edges */
   display: flex;
   flex-direction: column;
-  /* display: flex with column stacks the header, page content and footer from top to bottom */
   min-height: 100vh;
-  /* min-height: 100vh makes the page at least as tall as the window (100vh = 100% of the window height) */
 }
 
 /* Paragraph text size for every page */
 p {
   font-size: 17px;
   line-height: 1.6;
-  /* line-height: the height of each line of text; a bigger number adds more space between lines */
 }
 
-/* Page heading: plain centered text, no box */
+/* Page heading: plain text, no box */
 h1 {
   margin: 0 0 20px;
-  /* margin: space outside the element; 0 on top and sides, 20px below */
   font-size: 36px;
   font-weight: 800;
   text-align: center;
 }
 
-/* ==========================================================
-   3. SHARED PARTS (every page)
-   ========================================================== */
-
-/* ---------- Header and menu ---------- */
-
-/* Top bar on every page: logo on the left, menu on the right */
-.site-header {
-  display: flex;
-  /* display: flex puts the child elements side by side in a row instead of stacking them */
-  justify-content: space-between;
-  /* justify-content: space-between pushes the first and last child to opposite ends of the row */
-  align-items: center;
-  /* align-items: center lines the children up in the middle vertically */
-  gap: 12px;
-  /* gap: space between the children, without adding a margin to each one */
-  padding: 18px 32px;
-  /* padding: space inside the element, between its edge and its content (18px top and bottom, 32px left and right) */
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-  /* border-bottom: draws a line only under the element, not on all four sides */
-}
-
-/* Logo link on the left of the top bar */
-.logo {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-/* Row of menu items on the right of the top bar */
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Each menu link: padding inside, rounded corners, muted text */
-.site-nav a {
-  padding: 8px 14px;
-  border-radius: 8px;
-  /* border-radius: rounds the corners; a higher number is rounder */
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-/* Menu link on hover: light green background, green text */
-.site-nav a:hover {
-  background: var(--tint);
-  color: var(--primary);
-}
-
-/* Menu link for the page you are on: green background, text color that stands out on it */
-.site-nav a.active {
-  background: var(--primary);
-  color: var(--on-primary);
-}
-
-/* "Hi, email" text in the menu; it stays hidden until js/user.js shows it */
-.user-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--primary);
-  padding: 0 8px;
-}
-
-/* Light/dark toggle button in the menu; js/theme.js sets its label */
+/* Outlined button in the menu; js/theme.js sets its label */
 .theme-toggle {
   padding: 8px 14px;
   border: 1.5px solid var(--border);
   border-radius: 8px;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  /* font-family: buttons do not copy the page font by default, so it is set here */
   font-size: 14px;
   font-weight: 600;
   background: transparent;
-  /* background: transparent leaves the button see-through, so only its outline shows */
   color: var(--muted);
   cursor: pointer;
-  /* cursor: pointer turns the mouse arrow into a hand when it is over the button */
 }
 
 .theme-toggle:hover {
-  /* Light green background on hover */
   background: var(--tint);
   color: var(--primary);
 }
 
-/* ---------- Page container and cards ---------- */
-
-/* Page container: limited width, centered, with padding inside */
-.wrap {
-  flex: 1;
-  /* flex: 1 makes it take up all the free height, which pushes the footer to the bottom */
-  width: calc(100% - 48px);
-  /* calc() does math: full width minus the left and right padding (24px + 24px), so the box
-     does not shrink to its content or run past the window edge */
-  max-width: 960px;
-  /* max-width: stops the box from growing wider than 960px, even on a big screen */
-  margin: 0 auto;
-  /* margin: 0 auto centers the box (0 on top and bottom, auto splits the leftover space evenly on left and right) */
-  padding: 24px 24px 60px;
-  /* padding: 24px top, 24px left and right, 60px bottom */
+/* Label sits above its input */
+label {
+  display: block;
+  margin: 14px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-/* Main card: white box with a border, rounded corners and a soft shadow */
-.box {
-  padding: 24px 28px;
-  margin-bottom: 20px;
-  background: var(--card-bg);
+/* Text boxes share one look */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(27, 42, 33, 0.05);
-  /* box-shadow: the shadow's right/left offset, up/down offset, blur, then its color.
-     rgba is a color with a 4th number (0 to 1) for see-through; 0.05 is a very faint shadow */
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  background: var(--card-bg);
+  color: var(--text);
 }
 
-/* ---------- Buttons ---------- */
-
-/* Solid green button */
+/* Filled green button */
 .btn {
   display: inline-block;
-  /* display: inline-block lets the link sit in a line of text but still have padding and a top margin like a box */
   margin-top: 16px;
   padding: 10px 18px;
   border: none;
@@ -230,111 +118,124 @@ h1 {
   cursor: pointer;
 }
 
+  .form_btn {
+   text-align: center;
+   width: 100%; 
+   margin-top: 16px;
+}
+
 .btn:hover {
-  /* Darker green on hover */
   background: var(--primary-dark);
 }
 
-/* ---------- Footer ---------- */
-
-/* Footer on every page: centered text, white background, thin line on top */
-.page-footer {
-  text-align: center;
-  padding: 18px;
+/* Top bar on every page: brand on the left, menu on the right */
+.site-header {
+  display: flex;
+  /* display: flex puts the child elements side by side in a row */
+  justify-content: space-between;
+  /* space-between pushes the first and last child to opposite ends */
+  align-items: center;
+  /* centers the children vertically inside the row */
+  gap: 12px;
+  padding: 18px 32px;
   background: var(--card-bg);
-  border-top: 1px solid var(--border);
-  /* border-top: draws a line only above the element */
+  border-bottom: 1px solid var(--border);
 }
 
-.page-footer p {
-  margin: 4px 0;
-  font-size: 15px;
-  color: var(--muted);
-}
-
-/* Brand line in the footer */
-.page-footer .footer-logo {
-  font-size: 19px;
+/* Brand link on the left of the top bar */
+.logo {
+  font-size: 20px;
   font-weight: 700;
   color: var(--text);
 }
 
-/* ==========================================================
-   4. LOGIN PAGE
-   ========================================================== */
+/* Row of menu links on the right of the top bar */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-/* Narrow card, used for the login form */
+/* Each menu link: padding inside, rounded corners, muted text */
+.site-nav a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  /* border-radius rounds the corners; a higher value is rounder */
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Menu link hover: light green background, green text */
+.site-nav a:hover {
+  background: var(--tint);
+  color: var(--primary);
+}
+
+/* Menu link for the page you are on: solid green, white text */
+.site-nav a.active {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* Page container: capped width, centered, with side padding */
+.wrap {
+  flex: 1;
+  width: calc(100% - 48px);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 24px 60px;
+}
+
+/* Main white card: border, rounded corners, soft shadow */
+.box {
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(27, 42, 33, 0.05);
+  /* box-shadow: x offset, y offset, blur, then a very light shadow color */
+}
+
+/* Narrow card used for the login form */
 .box-narrow {
   max-width: 420px;
   margin: 0 auto 20px;
-  /* margin: 0 auto 20px centers the card and leaves 20px below it */
 }
-
-/* ---------- Login form ---------- */
-
-/* Label on its own line, above its input */
-label {
-  display: block;
-  /* display: block makes the label take a full line, so the input goes below it */
-  margin: 14px 0 6px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-/* Text boxes share one look */
-input[type="email"],
-input[type="password"] {
-  /* input[type="email"]: picks only the inputs of that type */
-  width: 90%;
-  /* width: 90% leaves room for the padding and border, so the box stays inside the card */
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  font-size: 15px;
-  background: var(--card-bg);
-  color: var(--text);
-}
-
-/* ==========================================================
-   5. HOME PAGE
-   ========================================================== */
 
 /* ---------- Home page: CSS Grid with named areas ---------- */
 
-/* Two columns: a sidebar and a wide column, filled using named areas */
+/* Two columns: a sidebar column and a wide column, filled using named areas */
 .grid-layout {
   display: grid;
-  /* display: grid lays the children out in rows and columns */
   grid-template-columns: minmax(220px, 260px) 1fr;
-  /* grid-template-columns: sets the columns. The first is at least 220px and at most 260px;
-     "1fr" means one share of the leftover space, so the second column takes all that is left */
+  /* first column is at least 220px and at most 260px; "1fr" gives the second column all the space left */
   grid-template-areas:
     "side picture"
     "side text";
-  /* grid-template-areas: a text drawing of the grid. The sidebar spans both rows,
-     and the picture sits above the text */
+  /* a text drawing of the grid: the sidebar spans both rows, the picture sits above the text */
   gap: 20px;
 }
 
-/* Puts the sidebar in the "side" area */
+/* Put the sidebar in the "side" area */
 .grid-layout-aside {
   grid-area: side;
 }
 
-/* Puts the picture in the "picture" area; full width, fixed shape, rounded, soft shadow */
+/* Put the picture in the "picture" area */
 .photo {
   grid-area: picture;
   width: 100%;
   aspect-ratio: 3 / 2;
-  /* aspect-ratio: keeps the width-to-height ratio (3 to 2), so the picture keeps its shape at any size */
+  /* aspect-ratio locks the width-to-height ratio so the box keeps its shape at any size */
   object-fit: cover;
-  /* object-fit: cover crops the picture to fill its box without stretching it */
+  /* object-fit: cover crops the image to fill its box without stretching it */
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(27, 42, 33, 0.14);
 }
 
-/* Puts the text card in the "text" area */
+/* Put the text card in the "text" area */
 .grid-layout .box {
   grid-area: text;
   margin-bottom: 0;
@@ -342,7 +243,7 @@ input[type="password"] {
 
 /* ---------- Sidebar cards ---------- */
 
-/* Sidebar card: a smaller version of the main card (also used on the Dashboard) */
+/* Sidebar card: smaller version of the main card */
 .aside-card {
   padding: 20px;
   margin-bottom: 20px;
@@ -367,7 +268,6 @@ input[type="password"] {
 /* Sidebar links: one per line, plain text look */
 .aside-a {
   display: block;
-  /* display: block puts each link on its own line */
   padding: 6px 0;
   font-size: 15px;
   font-weight: 600;
@@ -375,38 +275,62 @@ input[type="password"] {
 }
 
 .aside-a:hover {
-  /* Green text on hover */
   color: var(--primary);
 }
 
-/* ==========================================================
-   6. DASHBOARD PAGE
-   ========================================================== */
+/* ---------- Footer ---------- */
 
-/* ---------- Layout: Flexbox row with a fixed sidebar ---------- */
+/* Footer on every page: centered text, white background, thin line on top */
+.page-footer {
+  text-align: center;
+  padding: 18px;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+}
+
+.page-footer p {
+  margin: 4px 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* Footer brand line */
+.page-footer .footer-logo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* "Hi, first name" text in the nav bar; it stays hidden until js/user.js shows it */
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  padding: 0 8px;
+}
+
+/* ---------- Layout: Flexbox row with a fixed sidebar (Dashboard page) ---------- */
 
 /* Sidebar and main column side by side */
 .flex-layout {
   display: flex;
   flex-direction: row;
-  /* flex-direction: row puts the children side by side, left to right */
   gap: 24px;
   align-items: flex-start;
-  /* align-items: flex-start keeps the sidebar at the top, so it is not stretched to match the taller main column */
+  /* stops the sidebar from stretching to match the taller main column */
 }
 
 /* Sidebar column: exactly 300px wide */
 .flex-layout-aside {
   flex: 0 0 300px;
-  /* flex: grow, shrink, starting width. So: don't grow, don't shrink, stay at 300px */
+  /* flex: grow shrink basis, so: don't grow, don't shrink, start at 300px */
 }
 
 /* Main column: takes all the remaining width */
 .flex-layout-main {
   flex: 1;
-  /* flex: 1 means take up all the leftover space */
   min-width: 0;
-  /* min-width: 0 lets a wide table shrink instead of pushing the page wider */
+  /* lets a wide table shrink instead of pushing the page wider */
 }
 
 /* Row of small number cards inside the main column */
@@ -419,7 +343,6 @@ input[type="password"] {
 /* One number card */
 .stat-card {
   flex: 1;
-  /* flex: 1 makes both cards the same width */
   padding: 20px 24px;
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -427,7 +350,7 @@ input[type="password"] {
   box-shadow: 0 2px 10px rgba(27, 42, 33, 0.05);
 }
 
-/* Big number. It is written as ".stat-card .stat-number" so it wins over the ".stat-card p" rule below */
+/* Big number (written as ".stat-card .stat-number" so it wins over the ".stat-card p" rule below) */
 .stat-card .stat-number {
   margin: 0;
   font-size: 40px;
@@ -444,22 +367,22 @@ input[type="password"] {
 
 /* ---------- Table card ---------- */
 
-/* Table card: no padding, so the table fills the card from edge to edge */
+/* Table card: no padding so the table fills the card edge to edge */
 .box-table {
   padding: 0;
   overflow: auto;
-  /* overflow: auto keeps the table's square corners inside the rounded card, and adds a scrollbar if the table is too wide */
+  /* keeps the square table corners inside the rounded card and scrolls if the table is wide */
 }
 
-/* Table: full width, with the cell borders merged */
+/* Table: full width, borders merged into single lines */
 table {
   width: 100%;
   border-collapse: collapse;
-  /* border-collapse: collapse merges neighboring cell borders into one line instead of doubled lines */
+  /* collapse merges neighboring cell borders into one line instead of doubled lines */
   font-size: 15px;
 }
 
-/* Column headings: dark band with white text */
+/* Table heading cells: dark band with white text */
 th {
   padding: 12px 16px;
   background: var(--th-bg);
@@ -468,15 +391,14 @@ th {
   font-size: 13px;
 }
 
-/* Table cells: padding, and a line under each row */
+/* Table body cells: padding and a line under each row */
 td {
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
 }
 
-/* The last row has no line under it */
+/* Last row has no line under it */
 tr:last-child td {
-  /* :last-child picks only the last row in the table */
   border-bottom: none;
 }
 
@@ -486,19 +408,117 @@ tr:last-child td {
 .check-round {
   appearance: none;
   -webkit-appearance: none;
-  /* appearance: none removes the default checkbox look so we can style it on our own */
+  /* appearance: none removes the default checkbox look so we can draw our own */
   width: 16px;
   height: 16px;
   border: 2px solid var(--muted);
   border-radius: 50%;
-  /* border-radius: 50% turns the square into a circle */
+  /* 50% radius turns the square into a circle */
   vertical-align: middle;
-  /* vertical-align: middle lines the circle up with the middle of the text beside it */
   cursor: pointer;
 }
 
-/* Filled circle when the box is checked */
+/* Filled circle when checked */
 .check-round:checked {
   background: var(--primary);
   border-color: var(--primary);
+}
+
+/* ---------- Sign up and login: messages, hints and full-width button ---------- */
+
+/* Message box at the top of a form; it has the "hidden" attribute until there is something to say */
+.form-message {
+  margin: 0 0 6px;
+  padding: 10px 14px;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Red box for errors */
+.form-message.error {
+  background: #FDECEA;
+  color: #B3261E;
+  border-color: #F5C2BE;
+}
+
+/* Green box for success */
+.form-message.success {
+  background: var(--tint);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Link inside a message box (the "Back to login" link under a failed login) */
+.form-message a {
+  display: block;
+  margin-top: 6px;
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* One-time message at the top of a page (the Dashboard after login): space below it */
+.form-message.flash {
+  margin-bottom: 20px;
+}
+
+/* Dark theme: the red box needs its own darker colors */
+:root.dark_mode .form-message.error {
+  background: #3A1F1D;
+  color: #FFB4AB;
+  border-color: #7A3B36;
+}
+
+/* Small gray help line under a field */
+.form-hint {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* Button that fills the width of the card */
+.btn-full {
+  display: block;
+  width: 100%;
+}
+
+/* Red error line that js/register.js and js/login.js put right under a field */
+.field-error {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #B3261E;
+}
+
+/* Red border on a field that has an error */
+input.invalid {
+  border-color: #B3261E;
+}
+
+/* Dark theme: lighter red so it can be read on the dark card */
+:root.dark_mode .field-error {
+  color: #FFB4AB;
+}
+
+/* Dark theme: lighter red border on a field that has an error */
+:root.dark_mode input.invalid {
+  border-color: #FFB4AB;
+}
+
+/* "Already registered? Log in here" line under the sign up button */
+.form-note {
+  margin: 14px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* The link inside the "Already registered? Log in here" line */
+.form-note a {
+  font-weight: 600;
+  color: var(--primary);
 }

@@ -1,0 +1,98 @@
+<!-- Register page: collects a username, e-mail and password and sends them to the server's /register endpoint -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PlantPal - Register</title>
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page renders -->
+        <script src="js/theme.js"></script>
+    </head>
+
+    <body>
+        <!-- Site header: logo on the left, nav links on the right -->
+        <header class="site-header">
+            <a class="logo" href="index.html">🌿 PlantPal</a>
+            <nav class="site-nav">
+                <!-- Navigation: relative links to every page; "active" marks the page you are on -->
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="plants.html">My Plants</a>
+                <a href="add-plant.html">Add Plant / AI</a>
+                <a href="profile.html">Profile</a>
+                <!-- Login link: js/user.js hides it once someone is logged in -->
+                <a id="login_link" href="login.html">Login</a>
+                <!-- signup link: js/user.js hides it once someone is logged in -->
+                <a class="active" id="signup_link" href="register.html">Sign Up</a>
+                <!-- Logged-in user: hidden until js/user.js finds a saved login and fills it in -->
+                <span id="user_name" class="user-name" hidden></span>
+                <!-- Log out link: hidden until someone is logged in; js/user.js clears the saved login when it is clicked -->
+                <a id="logout_link" href="index.html" hidden>Log out</a>
+                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+            </nav>
+        </header>
+
+        <div class="wrap">
+            <h1>Sign up</h1>
+
+            <!-- Sign up form. js/register.js checks the fields, sends them to the server's /register endpoint
+                and shows the result in the message box below. Without JavaScript the form still posts
+                to /register by itself. -->
+            <form class="box box-narrow" id="register_form" action="/register" method="POST" novalidate>
+                <!-- Success and error messages appear here (hidden until there is something to say) -->
+                <div id="form_message" class="form-message" role="alert" hidden></div>
+
+                <!-- Each label is tied to its input by matching for/id, so clicking the label focuses the box -->
+                <!-- First name: required, up to 50 characters; autofills as given name. -->
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" maxlength="50" autocomplete="given-name" required>
+
+                <!-- Last name: required, up to 50 characters; autofills as family name. -->
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" maxlength="50" autocomplete="family-name" required>
+
+                <!-- Username: required, up to 30 characters; autofills as username. -->
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" maxlength="30" autocomplete="username" required>
+                <p class="form-hint">3 to 30 letters, numbers or underscores.</p>
+
+                <!-- Email: required, up to 255 characters; autofills as email. -->
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" maxlength="255" autocomplete="email" required>
+
+                <!-- Password: required, up to 100 characters; autofills as a new password. -->
+                <label for="password">Password</label>
+                <!-- new-password tells the browser this is a new account, so it can offer a strong password -->
+                <input type="password" id="password" name="password" maxlength="100" autocomplete="new-password" required>
+                <!-- Password hint: shows the requirements for a valid password -->
+                <p class="form-hint">At least 8 characters, with at least one letter and one number.</p>
+
+                <!-- Zip code field: text input, optional, max 5 characters, browser autofill as postal-code. -->
+                <!-- It is text (not type="number") so a leading 0, like 02108, is kept. inputmode="numeric" brings up a number pad on mobile devices. maxlength="5" prevents the user from entering more than 5 characters. -->    
+                <label for="zip_code">Zip code (optional)</label>
+                <!-- It is text (not type="number") so a leading 0, like 02108, is kept -->
+                <input type="text" id="zip_code" name="zip_code" inputmode="numeric" maxlength="5" autocomplete="postal-code">
+                <!-- Zip code hint: explains why the zip code is requested -->
+                <p class="form-hint">Used to look up the climate in your area when diagnosing your plants.</p>
+
+                <!-- Submit button: type="submit" so the browser sends the form to the server when clicked -->
+                <button type="submit" class="btn btn-full">Sign up</button>
+
+                <!-- Link for people who already have an account -->
+                <p class="form-note">Already registered? <a href="login.html">Log in here</a></p>
+            </form>
+        </div>
+
+         <!-- Footer: brand, tagline and copyright (same on every page) -->
+        <footer class="page-footer">
+            <p class="footer-logo">🌿 PlantPal</p>
+            <p>A simple way to keep your houseplants healthy.</p>
+            <p>© 2026 PlantPal</p>
+        </footer>
+
+        <!-- User script: at the end of the body so the user_name span above already exists when it runs -->
+        <script src="js/user.js"></script>
+         <!-- Sign up script: checks the form, calls /register and shows the message -->
+        <script src="js/register.js"></script>
+    </body>
+</html>

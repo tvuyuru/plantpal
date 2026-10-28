@@ -1,10 +1,9 @@
-<!-- Profile page: currently shows a placeholder for future account details. -->
 <!DOCTYPE html>
 <html>
     <head>
         <title>PlantPal - Profile</title>
         <link rel="stylesheet" href="css/style.css">
-        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page renders -->
+        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
         <script src="js/theme.js"></script>
     </head>
 
@@ -13,7 +12,7 @@
         <header class="site-header">
             <a class="logo" href="index.html">🌿 PlantPal</a>
             <nav class="site-nav">
-                <!-- Navigation: links to every page; the active class applies the highlighted style. -->
+                <!-- Navigation: relative links to every page; "active" marks the page you are on -->
                 <a href="index.html">Home</a>
                 <a href="dashboard.html">Dashboard</a>
                 <a href="plants.html">My Plants</a>
@@ -21,6 +20,8 @@
                 <a class="active" href="profile.html">Profile</a>
                 <!-- Login link: js/user.js hides it once someone is logged in -->
                 <a id="login_link" href="login.html">Login</a>
+                 <!-- signup link: js/user.js hides it once someone is logged in -->
+                <a id="signup_link" href="register.html">Sign Up</a>
                 <!-- Logged-in user: hidden until js/user.js finds a saved login and fills it in -->
                 <span id="user_name" class="user-name" hidden></span>
                 <!-- Log out link: hidden until someone is logged in; js/user.js clears the saved login when it is clicked -->

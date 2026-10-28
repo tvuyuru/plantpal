@@ -1,8 +1,8 @@
 /* ==========================================================
-   PlantPal - theme.js
+   PlantPal - theme.js (vanilla JavaScript)
 
    Light / dark theme switch, following the dev.to
-   "dark theme" article:
+   "dark theme in 5 minutes" article:
      1. css/style.css keeps every color in CSS variables
      2. The dark values apply when <html> has the class "dark_mode"
      3. This script toggles that class and saves the choice in localStorage
@@ -37,10 +37,10 @@ function retrieve_theme() {
   update_button();
 }
 
-// Apply the saved theme right away, before the page renders
+// Apply the saved theme right away, before the page paints
 retrieve_theme();
 
-// Once the HTML is ready, set the button label and listen for clicks
+// Once the page has loaded, set the button label and listen for clicks
 document.addEventListener('DOMContentLoaded', function () {
   update_button();
 
