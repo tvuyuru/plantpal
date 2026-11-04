@@ -135,7 +135,7 @@ form.addEventListener('submit', function (event) {
         return;
       }
       // Logged in: go straight to the Dashboard (its header shows "Hi, name" and Log out)
-      window.location.href = 'dashboard.html';
+      window.location.href = '/dashboard';
     })
     .catch(function () {
       // The server is not running, or the network is down, or the server did not answer with JSON

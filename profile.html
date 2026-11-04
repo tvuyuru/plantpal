@@ -12,20 +12,23 @@
         <header class="site-header">
             <a class="logo" href="index.html">🌿 PlantPal</a>
             <nav class="site-nav">
-                <!-- Navigation: relative links to every page; "active" marks the page you are on -->
+                <!-- Home is public and always shown -->
                 <a href="index.html">Home</a>
-                <a href="dashboard.html">Dashboard</a>
-                <a href="plants.html">My Plants</a>
-                <a href="add-plant.html">Add Plant / AI</a>
-                <a class="active" href="/profile">Profile</a>
-                <!-- Login link: js/user.js hides it when /me confirms an active session -->
+                <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
+                <a class="gated" href="/dashboard" hidden>Dashboard</a>
+                <a class="gated" href="/plants" hidden>My Plants</a>
+                <a class="gated" href="/add-plant" hidden>Add Plant / AI</a>
+                <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
                 <a id="login_link" href="login.html">Login</a>
-                 <!-- Sign-up link: js/user.js hides it when /me confirms an active session -->
-                <a id="signup_link" href="register.html">Sign Up</a>
-                <!-- User greeting: js/user.js shows the logged-in user's first name -->
-                <span id="user_name" class="user-name" hidden></span>
-                <!-- Log out link: hidden until someone is logged in; /logout clears the session and redirects to the login page -->
-                <a id="logout_link" href="/logout" hidden>Log out</a>
+                <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
+                <div id="user_menu" class="user-menu" hidden>
+                    <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true" aria-expanded="false"></button>
+                    <div id="user_dropdown" class="dropdown" hidden>
+                        <span id="dropdown_name" class="dropdown-name"></span>
+                        <a href="/profile">Profile</a>
+                        <a href="/logout">Log out</a>
+                    </div>
+                </div>
                 <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
                 <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
             </nav>

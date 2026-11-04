@@ -36,6 +36,13 @@ app.use(session({
 // The website files (html pages, css, images) are in the folder above this js folder.
 const site = path.join(__dirname, "..");
 
+// requireLogin blocks a page for logged-out visitors by sending them to the login page.
+// It runs before every gated route below.
+function requireLogin(req, res, next) {
+    if (!req.session.user) return res.redirect("/login.html");
+    next();
+}
+
 // Only these files are public. The js folder is not served as a whole because it contains
 // the server code and node_modules. The server file is intentionally not exposed because it
 // contains app configuration and environment-based settings. Only theme.js, user.js, login.js,
@@ -50,9 +57,15 @@ app.get(["/js/theme.js", "/js/user.js", "/js/login.js", "/js/register.js"], func
 app.get("/", function (req, res) {
     res.sendFile("index.html", { root: site });
 });
-app.get(/^\/(index|login|register|dashboard|plants|add-plant)\.html$/, function (req, res) {
+app.get(/^\/(index|login|register)\.html$/, function (req, res) {
     res.sendFile(req.path.slice(1), { root: site });
 });
+
+// Gated pages: only logged-in users get them; everyone else is redirected to login.
+// The HTML files still live in the site folder; these routes guard them.
+app.get("/dashboard", requireLogin, function (req, res) { res.sendFile("dashboard.html", { root: site }); });
+app.get("/plants", requireLogin, function (req, res) { res.sendFile("plants.html", { root: site }); });
+app.get("/add-plant", requireLogin, function (req, res) { res.sendFile("add-plant.html", { root: site }); });
 
 //---------- Step 1: connect to the database ----------
 const mysql = require("mysql2"); //uses new mysql package
@@ -190,7 +203,7 @@ app.post("/login", function (req, res) {
     }
 
     // Only accounts created with a password can log in here (Google accounts have no password_hash)
-    const sql = "SELECT id, username, first_name, password_hash FROM users WHERE username = ? AND auth_provider = 'local' AND password_hash IS NOT NULL";
+    const sql = "SELECT id, username, first_name, last_name, password_hash FROM users WHERE username = ? AND auth_provider = 'local' AND password_hash IS NOT NULL";
     conn.query(sql, [username], function (err, rows) {
         if (err) {
             console.log("There was an error during login", err);
@@ -208,8 +221,8 @@ app.post("/login", function (req, res) {
 
         // Remember when this user last logged in
         conn.query("UPDATE users SET last_login_at = NOW() WHERE id = ?", [rows[0].id]);
-        req.session.user = { username: rows[0].username, first_name: rows[0].first_name };
-        reply(req, res, 200, [], "You have logged in successfully", ["dashboard.html", "Go to the dashboard"],
+        req.session.user = { id: rows[0].id, username: rows[0].username, first_name: rows[0].first_name, last_name: rows[0].last_name }; // save the user info in the session
+        reply(req, res, 200, [], "You have logged in successfully", ["/dashboard", "Go to the dashboard"],
               { username: rows[0].username, first_name: rows[0].first_name });
     });
 });
@@ -273,5 +286,5 @@ app.get("/logout", function (req, res) {
 // The /me endpoint is used by js/user.js to find out if someone is logged in, and if so, what their name is. It returns JSON.
 app.get("/me", function (req, res) {
     if (!req.session.user) return res.json({ loggedIn: false });
-    res.json({ loggedIn: true, username: req.session.user.username, first_name: req.session.user.first_name });
+    res.json({ loggedIn: true, username: req.session.user.username, first_name: req.session.user.first_name, last_name: req.session.user.last_name });
 });

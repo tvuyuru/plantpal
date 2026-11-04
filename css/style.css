@@ -531,7 +531,7 @@ input.invalid {
 /* Profile page: the avatar circle with the first letter of the user's name */
 .profile-avatar {
     width:84px; height:84px; border-radius:50%;
-    background:var(--accent,#4ade80); color:#06281a;
+    background:var(--primary); color:var(--on-primary);
     display:flex; align-items:center; justify-content:center;
     font-size:30px; font-weight:800; flex:0 0 auto;
 }
@@ -553,3 +553,26 @@ input.invalid {
 .detail-row dd { margin:0; font-weight:600; text-align:right; word-break:break-word; }
 /* Profile page: the row of buttons under the details */
 .profile-actions { margin-top:24px; }
+
+/* ---------- Header: avatar menu (gating) ---------- */
+/* Make the hidden attribute always win, even over the display rules below */
+[hidden] { display: none !important; }
+
+.user-menu { position: relative; display: inline-block; }
+.avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--primary); color: var(--on-primary);
+    border: none; cursor: pointer; font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.dropdown {
+    position: absolute; right: 0; top: 50px;
+    background: var(--card-bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px; min-width: 170px;
+    display: flex; flex-direction: column; gap: 2px;
+    z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+.dropdown-name { padding: 8px 12px; font-weight: 700; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+.dropdown a { padding: 9px 12px; border-radius: 8px; text-decoration: none; color: inherit; }
+.dropdown a:hover { background: var(--tint); }
