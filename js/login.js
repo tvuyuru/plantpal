@@ -134,9 +134,6 @@ form.addEventListener('submit', function (event) {
         button.disabled = false;
         return;
       }
-      sessionStorage.setItem('plantpal_user', data.first_name);
-      // The Dashboard shows this message once (js/user.js), then forgets it
-      sessionStorage.setItem('plantpal_flash', data.message);
       // Logged in: go straight to the Dashboard (its header shows "Hi, name" and Log out)
       window.location.href = 'dashboard.html';
     })

@@ -17,15 +17,15 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="plants.html">My Plants</a>
                 <a href="add-plant.html">Add Plant / AI</a>
-                <a href="profile.html">Profile</a>
-                <!-- Login link: js/user.js hides it once someone is logged in -->
+                <a href="/profile">Profile</a>
+                <!-- Login link: js/user.js hides it when /me confirms an active session -->
                 <a id="login_link" href="login.html">Login</a>
-                <!-- signup link: js/user.js hides it once someone is logged in -->
+                <!-- Sign-up link: js/user.js hides it when /me confirms an active session -->
                 <a id="signup_link" href="register.html">Sign Up</a>
-                <!-- Logged-in user: hidden until js/user.js finds a saved login and fills it in -->
+                <!-- User greeting: js/user.js shows the logged-in user's first name -->
                 <span id="user_name" class="user-name" hidden></span>
-                <!-- Log out link: hidden until someone is logged in; js/user.js clears the saved login when it is clicked -->
-                <a id="logout_link" href="index.html" hidden>Log out</a>
+                <!-- Log out link: hidden until someone is logged in; /logout clears the session and redirects to the login page -->
+                <a id="logout_link" href="/logout" hidden>Log out</a>
                 <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
                 <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
             </nav>

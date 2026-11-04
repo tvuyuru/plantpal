@@ -1,7 +1,7 @@
 /* -- Plant Pal server -- 
 What it does:
     1. Serves the site's HTML pages, CSS, images, and selected public JavaScript files.
-    2. Provides GET /users and handles POST /register and POST /login.
+    2. Provides GET /users, /me, /profile, and /logout, plus POST /register and /login.
     3. Connects to the plant_pal MySQL database; hashes passwords at registration
        and verifies them during login.
 How to run it:
@@ -16,7 +16,22 @@ const express = require("express"); //imports the express module
 const path = require("path"); //built-in module for building file paths
 const crypto = require("crypto"); //built-in module used to hash passwords
 const app = express(); //creates the express application object
+const open = require("open").default; //opens the default browser to a given URL
+const session = require("express-session"); //built-in module for managing user sessions
+const fs = require("fs"); //built-in module for reading files (used to read profile.html and insert the user's name)
 app.use(express.urlencoded({ extended: true })); //lets us read the form fields from req.body
+
+// The session middleware keeps track of logged-in users. It stores a session ID in a cookie, and keeps the session data on the server. The cookie is httpOnly so it cannot be read by JavaScript, and secure is false because this site is not served over HTTPS.
+app.use(session({
+    secret: process.env.SESSION_SECRET || "plantpal_default-secret",  // used to sign the session ID cookie; should be set to a random value in production
+    resave: false, // don't save the session if nothing changed
+    saveUninitialized: false, // don't create a session until something is stored
+    cookie: {
+        maxAge: 60000 * 60, // 1 hour
+        httpOnly: true, // prevents JavaScript from reading the cookie
+        secure: false // set to true if the site is served over HTTPS
+    }
+}));
 
 // The website files (html pages, css, images) are in the folder above this js folder.
 const site = path.join(__dirname, "..");
@@ -35,7 +50,7 @@ app.get(["/js/theme.js", "/js/user.js", "/js/login.js", "/js/register.js"], func
 app.get("/", function (req, res) {
     res.sendFile("index.html", { root: site });
 });
-app.get(/^\/(index|login|register|dashboard|plants|add-plant|profile)\.html$/, function (req, res) {
+app.get(/^\/(index|login|register|dashboard|plants|add-plant)\.html$/, function (req, res) {
     res.sendFile(req.path.slice(1), { root: site });
 });
 
@@ -52,7 +67,13 @@ conn.connect(function(err)
 		console.log("Database connection established");
 	
 });
-app.listen(3000);
+
+// The server listens on port 3000 and opens the default browser to the site.
+app.listen(3000, async function () {
+    const { default: open } = await import("open"); // dynamic import because open() is an ES module
+    console.log("PlantPal is running at http://localhost:3000/");
+    open("http://localhost:3000/"); // opens the default browser to the site
+});
 
 // GET /users returns a list of all users, but without their password hashes or e-mails.
 app.get("/users", function (req, res) {
@@ -187,7 +208,70 @@ app.post("/login", function (req, res) {
 
         // Remember when this user last logged in
         conn.query("UPDATE users SET last_login_at = NOW() WHERE id = ?", [rows[0].id]);
+        req.session.user = { username: rows[0].username, first_name: rows[0].first_name };
         reply(req, res, 200, [], "You have logged in successfully", ["dashboard.html", "Go to the dashboard"],
               { username: rows[0].username, first_name: rows[0].first_name });
     });
+});
+
+/* ---------- Step 5: GET /profile ---------- */
+// Turns characters like < and > into safe text, so a name or email can't run as HTML
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+}
+
+// The profile page is only accessible to logged-in users. It shows their name, username, email, zip code, and when they joined. The server reads profile.html and replaces {{field}} with the user's data.
+app.get("/profile", function (req, res) {
+    if (!req.session.user) return res.redirect("/login.html"); // redirect to login if not logged in
+
+    const sql = "SELECT username, first_name, last_name, email, zip_code, created_at FROM users WHERE username = ?";
+    conn.query(sql, [req.session.user.username], function (err, rows) {
+        if (err || rows.length === 0) {
+            console.log("There was an error loading the profile", err);
+            return res.status(500).send("Error loading profile");
+        }
+        const u = rows[0];
+        // Read profile.html and replace {{field}} with the user's data
+        fs.readFile(path.join(site, "profile.html"), "utf8", function (readErr, html) {
+            if (readErr) return res.status(500).send("Error loading profile");
+
+            // Build the data object with the user's information, including initials and formatted member since date
+            const initials = ((u.first_name[0] || "") + (u.last_name ? u.last_name[0] : "")).toUpperCase();
+            const memberSince = new Date(u.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+            const data = {
+                initials: initials,
+                full_name: (u.first_name + " " + (u.last_name || "")).trim(),
+                username: u.username,
+                email: u.email,
+                zip: u.zip_code || "Not set",   // zip is optional
+                member_since: memberSince
+            };
+
+            // Replace each {{field}} with its value, escaped so a name/email can't inject HTML
+            const page = html.replace(/\{\{(\w+)\}\}/g, function (m, key) {
+                return data[key] !== undefined ? escapeHtml(String(data[key])) : "";
+            });
+            res.send(page);
+        });
+    });
+});
+
+/* ---------- Step 6: GET /logout ---------- */
+// The logout link clears the session and redirects to the login page. The cookie is cleared so the browser does not send it again.
+app.get("/logout", function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) return res.send("Error logging out");
+        res.clearCookie("connect.sid"); // connect.sid is the session cookie's name
+        res.redirect("/login.html"); // send them to the login page
+    });
+});
+
+/* ---------- Step 7: GET /me ---------- */
+// The /me endpoint is used by js/user.js to find out if someone is logged in, and if so, what their name is. It returns JSON.
+app.get("/me", function (req, res) {
+    if (!req.session.user) return res.json({ loggedIn: false });
+    res.json({ loggedIn: true, username: req.session.user.username, first_name: req.session.user.first_name });
 });
