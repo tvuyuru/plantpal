@@ -1,73 +1,77 @@
 <!-- Login page: collects an email and password and sends them to the server's /login endpoint -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>PlantPal - Login</title>
-        <link rel="stylesheet" href="css/style.css">
-        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page renders -->
-        <script src="js/theme.js"></script>
-    </head>
 
-    <body>
-        <!-- Site header: logo on the left, nav links on the right -->
-        <header class="site-header">
-            <a class="logo" href="index.html">🌿 PlantPal</a>
-            <nav class="site-nav">
-                <!-- Home is public and always shown -->
-                <a href="index.html">Home</a>
-                <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
-                <a class="gated" href="/dashboard" hidden>Dashboard</a>
-                <a class="gated" href="/plants" hidden>My Plants</a>
-                <a class="gated" href="/add-plant" hidden>Add Plant / AI</a>
-                <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
-                <a id="login_link" href="login.html">Login</a>
-                <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
-                <div id="user_menu" class="user-menu" hidden>
-                    <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true" aria-expanded="false"></button>
-                    <div id="user_dropdown" class="dropdown" hidden>
-                        <span id="dropdown_name" class="dropdown-name"></span>
-                        <a href="/profile">Profile</a>
-                        <a href="/logout">Log out</a>
-                    </div>
+<head>
+    <title>PlantPal - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page renders -->
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <!-- Site header: logo on the left, nav links on the right -->
+    <header class="site-header">
+        <a class="logo" href="index.html">🌿 PlantPal</a>
+        <nav class="site-nav">
+            <!-- Home is public and always shown -->
+            <a href="index.html">Home</a>
+            <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
+            <a class="gated" href="/dashboard" hidden>Dashboard</a>
+            <a class="gated" href="/plants" hidden>My Plants</a>
+            <a class="gated" href="/add-plant" hidden>Add Plant</a>
+            <a class="gated" href="/diagnose" hidden>Diagnose</a>
+            <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
+            <a id="login_link" href="login.html">Login</a>
+            <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
+            <div id="user_menu" class="user-menu" hidden>
+                <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true"
+                    aria-expanded="false"></button>
+                <div id="user_dropdown" class="dropdown" hidden>
+                    <span id="dropdown_name" class="dropdown-name"></span>
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Log out</a>
                 </div>
-                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
-                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
-            </nav>
-        </header>
+            </div>
+            <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+            <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+        </nav>
+    </header>
 
-        <div class="wrap">
-            <h1>Login</h1>
+    <div class="wrap">
+        <h1>Login</h1>
 
-            <!-- Login form.
+        <!-- Login form.
                  action: the server endpoint that checks the username and password (/login in server.js)
                  method="POST": sends the fields in the request body, so the password never appears in the address bar -->
-            <form class="box box-narrow" id="login_form" action="/login" method="POST" novalidate>
-                <div id="form_message" class="form-message" role="alert" hidden></div>
-                <!-- Each label is tied to its input by matching for/id, so clicking the label focuses the box -->
-                <label for="username">Username</label>
-                <!-- name="..." must match the field name server.js reads from req.body -->
-                <input type="text" id="username" name="username" autocomplete="username" required>
+        <form class="box box-narrow" id="login_form" action="/login" method="POST" novalidate>
+            <div id="form_message" class="form-message" role="alert" hidden></div>
+            <!-- Each label is tied to its input by matching for/id, so clicking the label focuses the box -->
+            <label for="username">Username</label>
+            <!-- name="..." must match the field name server.js reads from req.body -->
+            <input type="text" id="username" name="username" autocomplete="username" required>
 
-                <!-- The password field is type="password" so the browser hides what the user types -->
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" autocomplete="current-password" required>
+            <!-- The password field is type="password" so the browser hides what the user types -->
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
 
-                <!-- Submit button: type="submit" so the browser sends the form to the server when clicked -->
-                <button type="submit" class="btn btn-full">Log in</button>
-            </form>
-            <!-- Link for new users: Sign Up is no longer in the header, so it lives here -->
-            <p class="form-note">New here? <a href="register.html">Create an account</a></p>
-        </div>
+            <!-- Submit button: type="submit" so the browser sends the form to the server when clicked -->
+            <button type="submit" class="btn btn-full">Log in</button>
+        </form>
+        <!-- Link for new users: Sign Up is no longer in the header, so it lives here -->
+        <p class="form-note">New here? <a href="register.html">Create an account</a></p>
+    </div>
 
-         <!-- Footer: brand, tagline and copyright (same on every page) -->
-        <footer class="page-footer">
-            <p class="footer-logo">🌿 PlantPal</p>
-            <p>A simple way to keep your houseplants healthy.</p>
-            <p>© 2026 PlantPal</p>
-        </footer>
+    <!-- Footer: brand, tagline and copyright (same on every page) -->
+    <footer class="page-footer">
+        <p class="footer-logo">🌿 PlantPal</p>
+        <p>A simple way to keep your houseplants healthy.</p>
+        <p>© 2026 PlantPal</p>
+    </footer>
 
-        <!-- User script: at the end of the body so the user_name span in header above already exists when it runs -->
-        <script src="js/user.js"></script>
-        <script src="js/login.js"></script>
-    </body>
+    <!-- User script: at the end of the body so the user_name span in header above already exists when it runs -->
+    <script src="js/user.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
 </html>

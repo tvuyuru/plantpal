@@ -1,112 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>PlantPal - Dashboard</title>
-        <link rel="stylesheet" href="css/style.css">
-        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
-        <script src="js/theme.js"></script>
-    </head>
 
-    <body>
-        <!-- Site header: logo on the left, nav links on the right -->
-        <header class="site-header">
-            <a class="logo" href="index.html">🌿 PlantPal</a>
-            <nav class="site-nav">
-                <!-- Home is public and always shown -->
-                <a href="index.html">Home</a>
-                <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
-                <a class="gated" href="/dashboard" hidden>Dashboard</a>
-                <a class="gated" href="/plants" hidden>My Plants</a>
-                <a class="gated" href="/add-plant" hidden>Add Plant / AI</a>
-                <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
-                <a id="login_link" href="login.html">Login</a>
-                <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
-                <div id="user_menu" class="user-menu" hidden>
-                    <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true" aria-expanded="false"></button>
-                    <div id="user_dropdown" class="dropdown" hidden>
-                        <span id="dropdown_name" class="dropdown-name"></span>
-                        <a href="/profile">Profile</a>
-                        <a href="/logout">Log out</a>
+<head>
+    <title>PlantPal - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <!-- Site header: logo on the left, nav links on the right -->
+    <header class="site-header">
+        <a class="logo" href="index.html">🌿 PlantPal</a>
+        <nav class="site-nav">
+            <!-- Home is public and always shown -->
+            <a href="index.html">Home</a>
+            <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
+            <a class="gated" href="/dashboard" hidden>Dashboard</a>
+            <a class="gated" href="/plants" hidden>My Plants</a>
+            <a class="gated" href="/add-plant" hidden>Add Plant</a>
+            <a class="gated" href="/diagnose" hidden>Diagnose</a>
+            <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
+            <a id="login_link" href="login.html">Login</a>
+            <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
+            <div id="user_menu" class="user-menu" hidden>
+                <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true"
+                    aria-expanded="false"></button>
+                <div id="user_dropdown" class="dropdown" hidden>
+                    <span id="dropdown_name" class="dropdown-name"></span>
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Log out</a>
+                </div>
+            </div>
+            <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+            <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <h1>Dashboard</h1>
+
+        <!-- Dashboard layout: Flexbox row. The sidebar is fixed and the main column
+                 takes the rest (see .flex-layout in style.css). js/dashboard.js fills
+                 every number and row below from the user's real plants (GET /api/plants). -->
+        <div class="flex-layout">
+            <aside class="flex-layout-aside">
+                <!-- Watering checklist: plants that are due today or overdue -->
+                <div class="aside-card">
+                    <h2 class="aside-title">WATER TODAY</h2>
+                    <div id="water_today"></div>
+                </div>
+                <!-- Shortcut card -->
+                <div class="aside-card">
+                    <h2 class="aside-title">SHORTCUTS</h2>
+                    <a class="aside-a" href="/add-plant">+ Add a plant</a>
+                    <a class="aside-a" href="/diagnose">Diagnose a problem</a>
+                </div>
+            </aside>
+
+            <div class="flex-layout-main">
+                <!-- Two number cards side by side -->
+                <div class="stat-row">
+                    <div class="stat-card">
+                        <p class="stat-number" id="stat_total">0</p>
+                        <p>Total plants</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-number" id="stat_week">0</p>
+                        <p>Need water this week</p>
                     </div>
                 </div>
-                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
-                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
-            </nav>
-        </header>
 
-        <div class="wrap">
-            <h1>Dashboard</h1>
-
-            <!-- Dashboard layout: Flexbox row. The sidebar is fixed at 300px and the main column
-                 takes the rest (see .flex-layout in style.css). -->
-            <div class="flex-layout">
-                <aside class="flex-layout-aside">
-                    <!-- Watering checklist: round checkboxes drawn with CSS (.check-round) -->
-                    <div class="aside-card">
-                        <h2 class="aside-title">WATER TODAY</h2>
-                        <p><label><input class="check-round" type="checkbox"> Bonsai</label></p>
-                        <p><label><input class="check-round" type="checkbox"> Fern</label></p>
-                    </div>
-                    <!-- Shortcut card -->
-                    <div class="aside-card">
-                        <h2 class="aside-title">SHORTCUTS</h2>
-                        <a class="aside-a" href="/add-plant">+ Add a plant</a>
-                        <a class="aside-a" href="/add-plant#diagnosis">Diagnose a problem</a>
-                    </div>
-                </aside>
-
-                <div class="flex-layout-main">
-                    <!-- Two number cards side by side (a flex row inside the main column) -->
-                    <div class="stat-row">
-                        <div class="stat-card">
-                            <p class="stat-number">3</p>
-                            <p>Total plants</p>
-                        </div>
-                        <div class="stat-card">
-                            <p class="stat-number">2</p>
-                            <p>Need water this week</p>
-                        </div>
-                    </div>
-
-                    <!-- Upcoming watering: table inside a card with no padding. These rows are sample data. -->
-                    <div class="box box-table">
-                        <table>
-                            <!-- Heading row: <th> marks each column heading -->
-                            <tr>
-                                <th>Plant</th>
-                                <th>Next watering</th>
-                                <th>Note</th>
-                            </tr>
-                            <!-- Data rows: <td> holds the info for each plant -->
-                            <tr>
-                                <td>Bonsai</td>
-                                <td>Today</td>
-                                <td>Water lightly</td>
-                            </tr>
-                            <tr>
-                                <td>Fern</td>
-                                <td>Tomorrow</td>
-                                <td>Keep soil moist</td>
-                            </tr>
-                            <tr>
-                                <td>Snake plant</td>
-                                <td>In 6 days</td>
-                                <td>Let soil dry first</td>
-                            </tr>
-                        </table>
-                    </div>
+                <!-- Upcoming watering: the table's data rows are filled by js/dashboard.js -->
+                <div class="box box-table">
+                    <table id="upcoming_table">
+                        <tr>
+                            <th>Plant</th>
+                            <th>Next watering</th>
+                            <th>Note</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Footer: brand, tagline and copyright (same on every page) -->
-        <footer class="page-footer">
-            <p class="footer-logo">🌿 PlantPal</p>
-            <p>A simple way to keep your houseplants healthy.</p>
-            <p>© 2026 PlantPal</p>
-        </footer>
+    <!-- Footer: brand, tagline and copyright (same on every page) -->
+    <footer class="page-footer">
+        <p class="footer-logo">🌿 PlantPal</p>
+        <p>A simple way to keep your houseplants healthy.</p>
+        <p>© 2026 PlantPal</p>
+    </footer>
 
-        <!-- User script: at the end of the body so the user_name span above already exists when it runs -->
-        <script src="js/user.js"></script>
-    </body>
+    <!-- Page scripts: dashboard.js fills the numbers and tables; user.js runs the header -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/user.js"></script>
+</body>
+
 </html>

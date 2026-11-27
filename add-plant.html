@@ -1,57 +1,88 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>PlantPal - Add Plant / AI</title>
-        <link rel="stylesheet" href="css/style.css">
-        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
-        <script src="js/theme.js"></script>
-    </head>
 
-    <body>
-        <!-- Site header: logo on the left, nav links on the right -->
-        <header class="site-header">
-            <a class="logo" href="index.html">🌿 PlantPal</a>
-            <nav class="site-nav">
-                <!-- Home is public and always shown -->
-                <a href="index.html">Home</a>
-                <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
-                <a class="gated" href="/dashboard" hidden>Dashboard</a>
-                <a class="gated" href="/plants" hidden>My Plants</a>
-                <a class="gated" href="/add-plant" hidden>Add Plant / AI</a>
-                <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
-                <a id="login_link" href="login.html">Login</a>
-                <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
-                <div id="user_menu" class="user-menu" hidden>
-                    <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true" aria-expanded="false"></button>
-                    <div id="user_dropdown" class="dropdown" hidden>
-                        <span id="dropdown_name" class="dropdown-name"></span>
-                        <a href="/profile">Profile</a>
-                        <a href="/logout">Log out</a>
-                    </div>
+<head>
+    <title>PlantPal - Add Plant</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <!-- Site header: logo on the left, nav links on the right -->
+    <header class="site-header">
+        <a class="logo" href="index.html">🌿 PlantPal</a>
+        <nav class="site-nav">
+            <!-- Home is public and always shown -->
+            <a href="index.html">Home</a>
+            <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
+            <a class="gated" href="/dashboard" hidden>Dashboard</a>
+            <a class="gated" href="/plants" hidden>My Plants</a>
+            <a class="gated" href="/add-plant" hidden>Add Plant</a>
+            <a class="gated" href="/diagnose" hidden>Diagnose</a>
+            <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
+            <a id="login_link" href="login.html">Login</a>
+            <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
+            <div id="user_menu" class="user-menu" hidden>
+                <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true"
+                    aria-expanded="false"></button>
+                <div id="user_dropdown" class="dropdown" hidden>
+                    <span id="dropdown_name" class="dropdown-name"></span>
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Log out</a>
                 </div>
-                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
-                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
-            </nav>
-        </header>
-
-        <div class="wrap">
-            <h1>Add Plant / AI</h1>
-
-            <!-- Placeholder card: this page is not built yet -->
-            <div class="box box-narrow">
-                <p>🌱 This page is still germinating.</p>
-                <p>It is under development. Soon you will be able to add a plant and get help when one looks unwell.</p>
             </div>
+            <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+            <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <!-- The title changes to "Edit Plant" when the page is opened with ?id=... -->
+        <h1 id="form_title">Add a Plant</h1>
+
+        <!-- CREATE / UPDATE form. js/add-plant.js sends POST (new) or PUT (edit). -->
+        <div class="box box-narrow">
+            <div id="form_message" class="form-message" hidden></div>
+            <form id="plant_form" novalidate>
+                <label class="field">Name
+                    <input id="name" name="name" type="text" maxlength="100" placeholder="e.g. Fiddle-leaf fig"
+                        required>
+                </label>
+                <label class="field">Species <span class="form-hint">(optional)</span>
+                    <input id="species" name="species" type="text" maxlength="100" placeholder="e.g. Ficus lyrata">
+                </label>
+                <label class="field">Location <span class="form-hint">(optional)</span>
+                    <input id="location" name="location" type="text" maxlength="100"
+                        placeholder="e.g. Living room window">
+                </label>
+                <div class="field-row">
+                    <label class="field">Last watered <span class="form-hint">(optional)</span>
+                        <input id="last_watered" name="last_watered" type="date">
+                    </label>
+                    <label class="field">Water every (days) <span class="form-hint">(optional)</span>
+                        <input id="water_every_days" name="water_every_days" type="number" min="1" max="365"
+                            placeholder="e.g. 7">
+                    </label>
+                </div>
+                <label class="field">Notes <span class="form-hint">(optional)</span>
+                    <textarea id="notes" name="notes" maxlength="1000" rows="3" placeholder="Any care notes"></textarea>
+                </label>
+                <button type="submit" class="btn btn-full" id="save_btn">Save plant</button>
+            </form>
         </div>
+    </div>
 
-        <!-- Footer: brand, tagline and copyright (same on every page) -->
-        <footer class="page-footer">
-            <p class="footer-logo">🌿 PlantPal</p>
-            <p>A simple way to keep your houseplants healthy.</p>
-            <p>© 2026 PlantPal</p>
-        </footer>
+    <!-- Footer: brand, tagline and copyright (same on every page) -->
+    <footer class="page-footer">
+        <p class="footer-logo">🌿 PlantPal</p>
+        <p>A simple way to keep your houseplants healthy.</p>
+        <p>© 2026 PlantPal</p>
+    </footer>
 
-        <!-- User script: at the end of the body so the user_name span above already exists when it runs -->
-        <script src="js/user.js"></script>
-    </body>
+    <!-- Page scripts: add-plant.js runs the add/edit form; user.js runs the header -->
+    <script src="js/add-plant.js"></script>
+    <script src="js/user.js"></script>
+</body>
+
 </html>

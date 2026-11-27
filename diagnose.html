@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PlantPal - Diagnose</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <!-- Site header: logo on the left, nav links on the right -->
+    <header class="site-header">
+        <a class="logo" href="index.html">🌿 PlantPal</a>
+        <nav class="site-nav">
+            <!-- Home is public and always shown -->
+            <a href="index.html">Home</a>
+            <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
+            <a class="gated" href="/dashboard" hidden>Dashboard</a>
+            <a class="gated" href="/plants" hidden>My Plants</a>
+            <a class="gated" href="/add-plant" hidden>Add Plant</a>
+            <a class="gated" href="/diagnose" hidden>Diagnose</a>
+            <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
+            <a id="login_link" href="login.html">Login</a>
+            <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
+            <div id="user_menu" class="user-menu" hidden>
+                <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true"
+                    aria-expanded="false"></button>
+                <div id="user_dropdown" class="dropdown" hidden>
+                    <span id="dropdown_name" class="dropdown-name"></span>
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Log out</a>
+                </div>
+            </div>
+            <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+            <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <h1>AI plant diagnosis</h1>
+
+        <!-- Pick a plant, describe the symptoms, optionally add a photo. js/diagnose.js
+                 sends it to POST /api/diagnose and shows the model's answer below. -->
+        <div class="box box-narrow">
+            <p class="form-hint">Pick one of your plants, describe what looks wrong, optionally add a photo, and get a
+                diagnosis with steps to fix it.</p>
+            <div id="diag_message" class="form-message" hidden></div>
+            <label class="field">Plant
+                <select id="diag_plant"></select>
+            </label>
+            <label class="field">Symptoms
+                <textarea id="diag_symptoms" maxlength="2000" rows="3"
+                    placeholder="e.g. The lower leaves are turning yellow and the soil is always wet"></textarea>
+            </label>
+            <label class="field">Photo <span class="form-hint">(optional)</span>
+                <input id="diag_photo" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            </label>
+            <button type="button" id="diag_btn" class="btn">Diagnose</button>
+            <!-- The model's diagnosis + steps appear here -->
+            <div id="diag_result" class="diag-result" hidden></div>
+        </div>
+    </div>
+
+    <!-- Footer: brand, tagline and copyright (same on every page) -->
+    <footer class="page-footer">
+        <p class="footer-logo">🌿 PlantPal</p>
+        <p>A simple way to keep your houseplants healthy.</p>
+        <p>© 2026 PlantPal</p>
+    </footer>
+
+    <!-- Page scripts: diagnose.js runs the diagnosis; user.js runs the header -->
+    <script src="js/diagnose.js"></script>
+    <script src="js/user.js"></script>
+</body>
+
+</html>

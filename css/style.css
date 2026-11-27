@@ -1,33 +1,46 @@
-
 /* Light theme (the default) */
 :root {
-  color-scheme: light;      /* tells the browser to draw its own controls (date picker, file button) light */
-  --body-bg: #F4F8F5;       /* page background */
-  --card-bg: #FFFFFF;       /* header, cards, footer, inputs */
-  --text: #1B2A21;          /* main text and headings */
-  --muted: #5F6F65;         /* secondary text, menu links */
-  --border: #DDE7E0;        /* hairlines and card borders */
-  --tint: #E6F3EA;          /* light green for hovers and the avatar */
-  --primary: #2E7D4F;       /* leaf green: buttons, active link, accents */
-  --primary-dark: #1F5C39;  /* deep green: button hover, gradient end */
-  --on-primary: #FFFFFF;    /* text that sits on top of the green */
-  --th-bg: #1B2A21;         /* table heading band */
+  color-scheme: light;
+  /* tells the browser to draw its own controls (date picker, file button) light */
+  --body-bg: #F4F8F5;
+  /* page background */
+  --card-bg: #FFFFFF;
+  /* header, cards, footer, inputs */
+  --text: #1B2A21;
+  /* main text and headings */
+  --muted: #5F6F65;
+  /* secondary text, menu links */
+  --border: #DDE7E0;
+  /* hairlines and card borders */
+  --tint: #E6F3EA;
+  /* light green for hovers and the avatar */
+  --primary: #2E7D4F;
+  /* leaf green: buttons, active link, accents */
+  --primary-dark: #1F5C39;
+  /* deep green: button hover, gradient end */
+  --on-primary: #FFFFFF;
+  /* text that sits on top of the green */
+  --th-bg: #1B2A21;
+  /* table heading band */
 }
 
 /* Dark theme: the same variable names with new values.
    These win over :root whenever <html> has the dark_mode class.
    js/theme.js adds or removes that class. */
 :root.dark_mode {
-  color-scheme: dark;         /* tells the browser to draw its own parts (scrollbars, date picker, file button) in dark */
+  color-scheme: dark;
+  /* tells the browser to draw its own parts (scrollbars, date picker, file button) in dark */
   --body-bg: #101713;
   --card-bg: #18211C;
   --text: #E7EFE9;
   --muted: #9DB0A3;
   --border: #2A3830;
   --tint: #1E3328;
-  --primary: #5BC088;       /* lighter green so it stands out on dark */
+  --primary: #5BC088;
+  /* lighter green so it stands out on dark */
   --primary-dark: #3E9B68;
-  --on-primary: #0B1410;    /* dark text on the lighter green */
+  --on-primary: #0B1410;
+  /* dark text on the lighter green */
   --th-bg: #2A3830;
 }
 
@@ -116,12 +129,6 @@ input[type="password"] {
   background: var(--primary);
   color: var(--on-primary);
   cursor: pointer;
-}
-
-  .form_btn {
-   text-align: center;
-   width: 100%; 
-   margin-top: 16px;
 }
 
 .btn:hover {
@@ -299,14 +306,6 @@ input[type="password"] {
   font-size: 19px;
   font-weight: 700;
   color: var(--text);
-}
-
-/* "Hi, first name" text in the nav bar; it stays hidden until js/user.js shows it */
-.user-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--primary);
-  padding: 0 8px;
 }
 
 /* ---------- Layout: Flexbox row with a fixed sidebar (Dashboard page) ---------- */
@@ -525,54 +524,308 @@ input.invalid {
 
 /* ---------- Profile page ---------- */
 /* Profile page: centered column with a max width */
-.profile { max-width: 640px; margin: 0 auto; }
+.profile {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 /* Profile page: the top row with the avatar and name */
-.profile-head { display:flex; align-items:center; gap:20px; margin-bottom:24px; }
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
 /* Profile page: the avatar circle with the first letter of the user's name */
 .profile-avatar {
-    width:84px; height:84px; border-radius:50%;
-    background:var(--primary); color:var(--on-primary);
-    display:flex; align-items:center; justify-content:center;
-    font-size:30px; font-weight:800; flex:0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 800;
+  flex: 0 0 auto;
 }
+
 /* Profile page: the user's name and handle */
-.profile-name { margin:0; font-size:28px; }
+.profile-name {
+  margin: 0;
+  font-size: 28px;
+}
+
 /* Profile page: the user's handle (username) */
-.profile-handle { margin:4px 0 0; color:var(--muted,#9fb3a6); }
+.profile-handle {
+  margin: 4px 0 0;
+  color: var(--muted, #9fb3a6);
+}
+
 /* Profile page: the section title above the details */
-.profile-section-title { margin:0 0 12px; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted,#9fb3a6); }
+.profile-section-title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted, #9fb3a6);
+}
+
 /* Profile page: the list of details (email, phone, etc.) */
-.profile-details { margin:0; }
+.profile-details {
+  margin: 0;
+}
+
 /* Profile page: one row of a detail (label on the left, value on the right) */
-.detail-row { display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.08); }
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
 /* Profile page: the last row has no border under it */
-.detail-row:last-child { border-bottom:none; }
+.detail-row:last-child {
+  border-bottom: none;
+}
+
 /* Profile page: the label on the left of a detail row */
-.detail-row dt { color:var(--muted,#9fb3a6); }
+.detail-row dt {
+  color: var(--muted, #9fb3a6);
+}
+
 /* Profile page: the value on the right of a detail row */
-.detail-row dd { margin:0; font-weight:600; text-align:right; word-break:break-word; }
+.detail-row dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+}
+
 /* Profile page: the row of buttons under the details */
-.profile-actions { margin-top:24px; }
+.profile-actions {
+  margin-top: 24px;
+}
 
 /* ---------- Header: avatar menu (gating) ---------- */
 /* Make the hidden attribute always win, even over the display rules below */
-[hidden] { display: none !important; }
+[hidden] {
+  display: none !important;
+}
 
-.user-menu { position: relative; display: inline-block; }
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
 .avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--primary); color: var(--on-primary);
-    border: none; cursor: pointer; font-weight: 700; font-size: 14px;
-    display: inline-flex; align-items: center; justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .dropdown {
-    position: absolute; right: 0; top: 50px;
-    background: var(--card-bg); color: var(--text);
-    border: 1px solid var(--border); border-radius: 12px;
-    padding: 8px; min-width: 170px;
-    display: flex; flex-direction: column; gap: 2px;
-    z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
 }
-.dropdown-name { padding: 8px 12px; font-weight: 700; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
-.dropdown a { padding: 9px 12px; border-radius: 8px; text-decoration: none; color: inherit; }
-.dropdown a:hover { background: var(--tint); }
+
+.dropdown-name {
+  padding: 8px 12px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.dropdown a {
+  padding: 9px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dropdown a:hover {
+  background: var(--tint);
+}
+
+/* The original CSS only styled plain text inputs, so the new form controls
+   (date, number, file, the notes textarea and the plant dropdown) would show
+   as raw browser defaults. This rule makes them match the text inputs. */
+input[type="date"],
+input[type="number"],
+input[type="file"],
+textarea,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  /* padding counts inside the width, so the field never overflows its box */
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  background: var(--card-bg);
+  /* theme background, so the field is readable in dark mode too */
+  color: var(--text);
+  /* theme text colour, same reason */
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* let the user grow it down, but not sideways out of the layout */
+
+/* Page heading row: title on the left, action button on the right */
+.page-head {
+  display: flex;
+  align-items: center;
+  /* line the button up with the middle of the heading */
+  justify-content: space-between;
+  /* push title and button to opposite ends */
+  gap: 16px;
+  flex-wrap: wrap;
+  /* on a narrow phone the button drops to its own line */
+}
+
+.page-head .btn {
+  margin-top: 0;
+}
+
+/* cancel the default top margin so it sits level with the title */
+
+/* Two form fields side by side on wider screens, stacked on narrow ones */
+.field-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.field-row .field {
+  flex: 1 1 160px;
+}
+
+/* share the row equally, but wrap once each would be under 160px */
+
+/* Grid of plant cards (the READ view) */
+.plant-grid {
+  display: grid;
+  /* as many cards per row as fit at 240px min, each stretching to fill the leftover space */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.plant-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  /* stack name, details and actions top to bottom */
+}
+
+.plant-card-name {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.plant-card-species {
+  margin: 2px 0 10px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.plant-card-details {
+  margin: 0 0 14px;
+}
+
+.plant-card-details dt {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* small grey label */
+.plant-card-details dd {
+  margin: 2px 0 0;
+  color: var(--text);
+  word-break: break-word;
+}
+
+/* break-word so a long note can't widen the card */
+.plant-card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* margin-top:auto pins the buttons to the bottom so every card's buttons line up */
+
+/* Smaller button, and a red "danger" variant for Delete */
+.btn-small {
+  margin-top: 0;
+  padding: 7px 14px;
+  font-size: 13px;
+}
+
+.btn-danger {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* hard-coded red: a delete should look risky in any theme */
+.btn-danger:hover {
+  background: #a93226;
+}
+
+/* a touch darker on hover */
+
+/* Section heading, e.g. "AI plant diagnosis" */
+.section-head {
+  margin-top: 34px;
+}
+
+/* extra space so the diagnosis section is clearly separate from the form */
+
+/* The AI diagnosis result box */
+.diag-result {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  /* thick coloured left edge makes it read as a callout */
+  border-radius: 10px;
+  background: var(--tint);
+  color: var(--text);
+  white-space: pre-wrap;
+  /* keep the model's line breaks and spacing instead of collapsing to one blob */
+  line-height: 1.5;
+}

@@ -1,77 +1,93 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>PlantPal - Profile</title>
-        <link rel="stylesheet" href="css/style.css">
-        <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
-        <script src="js/theme.js"></script>
-    </head>
 
-    <body>
-        <!-- Site header: logo on the left, nav links on the right -->
-        <header class="site-header">
-            <a class="logo" href="index.html">🌿 PlantPal</a>
-            <nav class="site-nav">
-                <!-- Home is public and always shown -->
-                <a href="index.html">Home</a>
-                <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
-                <a class="gated" href="/dashboard" hidden>Dashboard</a>
-                <a class="gated" href="/plants" hidden>My Plants</a>
-                <a class="gated" href="/add-plant" hidden>Add Plant / AI</a>
-                <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
-                <a id="login_link" href="login.html">Login</a>
-                <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
-                <div id="user_menu" class="user-menu" hidden>
-                    <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true" aria-expanded="false"></button>
-                    <div id="user_dropdown" class="dropdown" hidden>
-                        <span id="dropdown_name" class="dropdown-name"></span>
-                        <a href="/profile">Profile</a>
-                        <a href="/logout">Log out</a>
+<head>
+    <title>PlantPal - Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Theme script: loaded in the head so the saved light/dark choice shows before the page paints -->
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <!-- Site header: logo on the left, nav links on the right -->
+    <header class="site-header">
+        <a class="logo" href="index.html">🌿 PlantPal</a>
+        <nav class="site-nav">
+            <!-- Home is public and always shown -->
+            <a href="index.html">Home</a>
+            <!-- Gated tabs: js/user.js reveals these only after /me confirms a logged-in session -->
+            <a class="gated" href="/dashboard" hidden>Dashboard</a>
+            <a class="gated" href="/plants" hidden>My Plants</a>
+            <a class="gated" href="/add-plant" hidden>Add Plant</a>
+            <a class="gated" href="/diagnose" hidden>Diagnose</a>
+            <!-- Logged-out action: a single Login link (Sign Up is reached from the login page) -->
+            <a id="login_link" href="login.html">Login</a>
+            <!-- Logged-in menu: the avatar button (user's initials) opens a dropdown -->
+            <div id="user_menu" class="user-menu" hidden>
+                <button type="button" id="avatar_btn" class="avatar" aria-haspopup="true"
+                    aria-expanded="false"></button>
+                <div id="user_dropdown" class="dropdown" hidden>
+                    <span id="dropdown_name" class="dropdown-name"></span>
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Log out</a>
+                </div>
+            </div>
+            <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
+            <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <!-- Profile page layout: a single column with a header, account details, and actions -->
+        <section class="profile">
+            <!-- Profile header: avatar, name, and handle -->
+            <div class="profile-head">
+                <div class="profile-avatar">{{initials}}</div>
+                <div>
+                    <h1 class="profile-name">{{full_name}}</h1>
+                    <p class="profile-handle">@{{username}}</p>
+                </div>
+            </div>
+
+            <!-- Account details, pulled from the database -->
+            <div class="box">
+                <h2 class="profile-section-title">Account details</h2>
+                <dl class="profile-details">
+                    <div class="detail-row">
+                        <dt>Username</dt>
+                        <dd>{{username}}</dd>
                     </div>
-                </div>
-                <!-- Light/dark switch: js/theme.js handles the click and updates the label -->
-                <button type="button" id="theme_toggler" class="theme-toggle" aria-pressed="false">🌙 Dark</button>
-            </nav>
-        </header>
-
-        <div class="wrap">
-            <!-- Profile page layout: a single column with a header, account details, and actions -->
-            <section class="profile">
-                <!-- Profile header: avatar, name, and handle -->
-                <div class="profile-head">
-                    <div class="profile-avatar">{{initials}}</div>
-                    <div>
-                        <h1 class="profile-name">{{full_name}}</h1>
-                        <p class="profile-handle">@{{username}}</p>
+                    <div class="detail-row">
+                        <dt>Email</dt>
+                        <dd>{{email}}</dd>
                     </div>
-                </div>
+                    <div class="detail-row">
+                        <dt>Zip code</dt>
+                        <dd>{{zip}}</dd>
+                    </div>
+                    <div class="detail-row">
+                        <dt>Member since</dt>
+                        <dd>{{member_since}}</dd>
+                    </div>
+                </dl>
+            </div>
 
-                <!-- Account details, pulled from the database -->
-                <div class="box">
-                    <h2 class="profile-section-title">Account details</h2>
-                    <dl class="profile-details">
-                        <div class="detail-row"><dt>Username</dt><dd>{{username}}</dd></div>
-                        <div class="detail-row"><dt>Email</dt><dd>{{email}}</dd></div>
-                        <div class="detail-row"><dt>Zip code</dt><dd>{{zip}}</dd></div>
-                        <div class="detail-row"><dt>Member since</dt><dd>{{member_since}}</dd></div>
-                    </dl>
-                </div>
+            <!-- Clicking this opens /logout, which destroys the session -->
+            <div class="profile-actions">
+                <a class="btn" href="/logout">Log out</a>
+            </div>
+        </section>
+    </div>
 
-                <!-- Clicking this opens /logout, which destroys the session -->
-                <div class="profile-actions">
-                    <a class="btn" href="/logout">Log out</a>
-                </div>
-            </section>
-        </div>
+    <!-- Footer: brand, tagline and copyright (same on every page) -->
+    <footer class="page-footer">
+        <p class="footer-logo">🌿 PlantPal</p>
+        <p>A simple way to keep your houseplants healthy.</p>
+        <p>© 2026 PlantPal</p>
+    </footer>
 
-        <!-- Footer: brand, tagline and copyright (same on every page) -->
-        <footer class="page-footer">
-            <p class="footer-logo">🌿 PlantPal</p>
-            <p>A simple way to keep your houseplants healthy.</p>
-            <p>© 2026 PlantPal</p>
-        </footer>
+    <!-- User script: at the end of the body so the user_name span above already exists when it runs -->
+    <script src="js/user.js"></script>
+</body>
 
-        <!-- User script: at the end of the body so the user_name span above already exists when it runs -->
-        <script src="js/user.js"></script>
-    </body>
 </html>
